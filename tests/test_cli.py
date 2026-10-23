@@ -112,6 +112,31 @@ class TestDemo(unittest.TestCase):
             self.assertIn("PREVIEW ONLY", out)
             self.assertIn("nothing was posted", out.lower())
 
+    def test_demo_survives_non_utf8_console(self):
+        # On a Windows console with a legacy code page (e.g. cp1252), printing
+        # a non-ASCII repo path must not crash with UnicodeEncodeError.
+        import os
+        import subprocess
+        import sys
+
+        repo_root = Path(__file__).resolve().parent.parent
+        with tempfile.TemporaryDirectory() as tmp:
+            state = str(Path(tmp) / "state.json")
+            env = dict(os.environ, PYTHONIOENCODING="cp1252")
+            proc = subprocess.run(
+                [sys.executable, "-m", "issuepilot", "demo", "--state", state],
+                capture_output=True,
+                cwd=repo_root,
+                env=env,
+            )
+        self.assertEqual(
+            proc.returncode, 0, proc.stderr.decode("utf-8", "replace")
+        )
+        self.assertIn(
+            "possible duplicates",
+            proc.stdout.decode("utf-8", "replace"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

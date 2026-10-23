@@ -261,7 +261,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _enable_utf8_stdio() -> None:
+    # Windows consoles often default to a legacy code page (cp1252, GBK),
+    # which crashes or mojibakes non-ASCII paths/titles. Emit UTF-8 instead.
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        encoding = (getattr(stream, "encoding", None) or "").lower()
+        if reconfigure is not None and encoding.replace("-", "") != "utf8":
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except (OSError, ValueError):
+                pass
+
+
 def main(argv: list[str] | None = None) -> int:
+    _enable_utf8_stdio()
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
