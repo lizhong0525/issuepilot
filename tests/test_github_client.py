@@ -68,6 +68,16 @@ class TestFetchIssues(unittest.TestCase):
             client.fetch_issues("o", "r")
         self.assertIn("max_pages", str(ctx.exception))
 
+    def test_exactly_max_pages_without_next_link_is_not_an_error(self):
+        next_url = "https://api.github.com/repos/o/r/issues?state=open&per_page=100&page=2"
+        t = MockTransport()
+        t.add(200, json.dumps(PAGE1),
+              headers={"Link": f'<{next_url}>; rel="next"'})
+        t.add(200, json.dumps(PAGE2))  # last page: no Link header
+        client = GitHubClient(transport=t, sleep=lambda s: None, max_pages=2)
+        issues = client.fetch_issues("o", "r")
+        self.assertEqual([i.number for i in issues], [1, 3])
+
     def test_rate_limit_retry_then_success(self):
         t = MockTransport()
         t.add(403, '{"message": "API rate limit exceeded"}',

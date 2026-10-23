@@ -53,6 +53,13 @@ def _read_issues_file(path: str | Path) -> list[Issue]:
         raise CliError(f"invalid issues file {p}: {exc}") from exc
 
 
+def _open_store(path: str | Path) -> SuggestionStore:
+    try:
+        return SuggestionStore(path)
+    except ValueError as exc:
+        raise CliError(str(exc)) from exc
+
+
 def _format_suggestion(s: Suggestion, verbose: bool = True) -> str:
     lines = [
         f"[{s.id}] ({s.kind}, confidence: {s.confidence}) {s.summary}",
@@ -108,7 +115,7 @@ def _run_analysis(issues_path: str | Path, state_path: str | Path) -> tuple[int,
     if not issues:
         print(f"No issues found in {issues_path}; nothing to analyze.")
         return 0, 0, 0
-    store = SuggestionStore(state_path)
+    store = _open_store(state_path)
     added, revived = store.merge(build_suggestions(issues))
     store.save()
     return len(issues), added, len(store.pending())
@@ -128,7 +135,7 @@ def cmd_analyze(args: argparse.Namespace) -> int:
 
 
 def cmd_review(args: argparse.Namespace) -> int:
-    store = SuggestionStore(args.state)
+    store = _open_store(args.state)
     pending = store.pending()
     if not pending:
         print("Review queue is empty. Run `analyze` first, or everything is handled.")
@@ -153,7 +160,7 @@ def cmd_review(args: argparse.Namespace) -> int:
 
 
 def _cmd_set_status(args: argparse.Namespace, status: str) -> int:
-    store = SuggestionStore(args.state)
+    store = _open_store(args.state)
     try:
         if status == STATUS_APPROVED:
             s = store.approve(args.id)
@@ -195,7 +202,7 @@ def cmd_demo(args: argparse.Namespace) -> int:
         f"Analyzed {n_issues} issues: {added} new suggestion(s), "
         f"{pending} pending (state: {state}).\n"
     )
-    store = SuggestionStore(state)
+    store = _open_store(state)
     for s in store.pending():
         print(_format_suggestion(s, verbose=True))
         print("-" * 72)
@@ -209,7 +216,7 @@ def cmd_demo(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="issuepilot",
+        prog="python -m issuepilot",
         description=(
             "Maintainer-assist triage for small public GitHub repos. "
             "Read-only: suggests, never posts."

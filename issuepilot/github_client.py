@@ -208,7 +208,7 @@ class GitHubClient:
             raw.extend(page)
             pages += 1
             url = self._last_next_link or ""
-        if pages >= self.max_pages:
+        if url:
             raise GitHubApiError(
                 f"hit max_pages={self.max_pages} while paginating issues for "
                 f"{owner}/{repo}; raise --max-pages if the repo is larger"

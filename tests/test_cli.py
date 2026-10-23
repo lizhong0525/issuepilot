@@ -101,6 +101,20 @@ class TestAnalyzeAndReview(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertIn("empty", out)
 
+    def test_corrupt_state_file_is_a_clean_error(self):
+        bad = Path(self.tmp.name) / "state.json"
+        bad.write_text("garbage{", encoding="utf-8")
+        code, _, err = run_cli(["review", "--state", str(bad)])
+        self.assertEqual(code, 2)
+        self.assertIn("cannot read state file", err)
+
+    def test_malformed_state_entries_are_a_clean_error(self):
+        bad = Path(self.tmp.name) / "state.json"
+        bad.write_text('[{"foo": 1}]', encoding="utf-8")
+        code, _, err = run_cli(["approve", "label-1a2b3c4d", "--state", str(bad)])
+        self.assertEqual(code, 2)
+        self.assertIn("malformed entries", err)
+
 
 class TestDemo(unittest.TestCase):
     def test_demo_runs_end_to_end(self):

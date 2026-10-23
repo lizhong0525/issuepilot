@@ -151,7 +151,14 @@ class SuggestionStore:
             ) from exc
         if not isinstance(data, list):
             raise ValueError(f"state file {self.path} is not a JSON array")
-        self._suggestions = {s.id: s for s in (Suggestion.from_dict(d) for d in data)}
+        try:
+            self._suggestions = {
+                s.id: s for s in (Suggestion.from_dict(d) for d in data)
+            }
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(
+                f"state file {self.path} contains malformed entries: {exc}"
+            ) from exc
 
     def save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
