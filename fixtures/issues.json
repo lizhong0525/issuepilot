@@ -1,0 +1,122 @@
+[
+  {
+    "number": 101,
+    "title": "Crash on startup after upgrading to 2.3.1",
+    "body": "After upgrading weathercli to version 2.3.1 the program crashes on startup with KeyError: 'api_key'.\n\nSteps to reproduce:\n1. run `weathercli now`\n2. crash happens immediately\n\nExpected: shows the current forecast.\nActual: traceback with KeyError 'api_key' while reading config.yaml.\n\nEnvironment: Ubuntu 22.04, Python 3.11, weathercli 2.3.1.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "alice"},
+    "created_at": "2026-10-01T09:12:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/101"
+  },
+  {
+    "number": 102,
+    "title": "weathercli crashes immediately at startup (KeyError api_key)",
+    "body": "Since updating to version 2.3.1, weathercli crashes on startup. The traceback shows KeyError: 'api_key' while reading config.yaml. I expected the current forecast, but instead got a crash. Running Ubuntu 22.04 with Python 3.11.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "bob"},
+    "created_at": "2026-10-02T14:03:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/102"
+  },
+  {
+    "number": 103,
+    "title": "Startup crash, KeyError in config.yaml after update",
+    "body": "weathercli 2.3.1 crashes at startup with KeyError: 'api_key' coming from config.yaml parsing right after the update. Expected the forecast output, actual result is a traceback. Ubuntu 22.04, Python 3.11.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "carol"},
+    "created_at": "2026-10-03T08:41:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/103"
+  },
+  {
+    "number": 104,
+    "title": "CSV export is extremely slow for large city lists",
+    "body": "Exporting 5000 rows of history to CSV takes over 10 minutes on my machine. I expected the export to finish in seconds, but instead it crawls. Using version 2.3.0 on Windows 11. Looks like a performance problem, maybe memory usage grows without bound.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "dave"},
+    "created_at": "2026-10-04T11:20:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/104"
+  },
+  {
+    "number": 105,
+    "title": "CSV export writes columns in the wrong order",
+    "body": "When exporting history to CSV, the date and temperature columns are swapped.\n\nSteps to reproduce:\n1. run `weathercli history --csv out.csv`\n2. open out.csv\n\nExpected: date column first.\nActual: temperature column first.\n\nEnvironment: macOS 14, weathercli 2.3.1.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "erin"},
+    "created_at": "2026-10-05T16:45:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/105"
+  },
+  {
+    "number": 106,
+    "title": "Feature request: support hourly forecasts",
+    "body": "It would be nice if the forecast command could show hourly data, not just daily. Please add support for an --hourly flag.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "frank"},
+    "created_at": "2026-10-06T10:00:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/106"
+  },
+  {
+    "number": 107,
+    "title": "README typo in the installation section",
+    "body": "The README installation section says `pip install weathercl` but the package is named `weathercli`. Small documentation typo in the docs.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "grace"},
+    "created_at": "2026-10-07T12:30:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/107"
+  },
+  {
+    "number": 108,
+    "title": "How do I configure an HTTP proxy?",
+    "body": "Question: how can I route requests through a corporate HTTP proxy? Is it possible to set proxy environment variables, or is there a config option?",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "heidi"},
+    "created_at": "2026-10-08T09:05:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/108"
+  },
+  {
+    "number": 109,
+    "title": "App crashes when I click the radar button",
+    "body": "It just crashes. Please fix this bug.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "ivan"},
+    "created_at": "2026-10-09T19:22:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/109"
+  },
+  {
+    "number": 110,
+    "title": "ValueError when fetching radar data",
+    "body": "I get a ValueError when running the radar command on version 2.2.0 (Windows 11). Expected a radar image to be downloaded.",
+    "state": "open",
+    "labels": [],
+    "user": {"login": "judy"},
+    "created_at": "2026-10-10T08:15:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/110"
+  },
+  {
+    "number": 111,
+    "title": "Units switch ignored in config file",
+    "body": "Bug: setting units = metric in config.yaml is ignored.\n\nSteps to reproduce:\n1. set units = metric in config.yaml\n2. run `weathercli now`\n\nExpected: temperatures in Celsius.\nActual: temperatures in Fahrenheit.\n\nEnvironment: Fedora 40, Python 3.12, version 2.3.1.",
+    "state": "open",
+    "labels": [{"name": "bug"}],
+    "user": {"login": "kate"},
+    "created_at": "2026-10-11T13:50:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/111"
+  },
+  {
+    "number": 112,
+    "title": "Old crash on startup (fixed in 2.3.0)",
+    "body": "This was an old startup crash with KeyError 'api_key' in config.yaml on version 2.2.0, fixed already. Ubuntu 22.04, Python 3.11. Expected forecast, actual traceback.",
+    "state": "closed",
+    "labels": [{"name": "bug"}],
+    "user": {"login": "leo"},
+    "created_at": "2026-09-15T07:00:00Z",
+    "html_url": "https://github.com/example/weathercli/issues/112"
+  }
+]

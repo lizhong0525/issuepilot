@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IssuePilot local state (never commit tokens, caches, or review queues)
+issuepilot_state.json
+issuepilot_cache.json
+demo_state.json
+/issues.json
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

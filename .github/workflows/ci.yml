@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      # No dependencies: standard library only.
+      - name: Run tests (offline, mocked GitHub transport)
+        run: python -m unittest discover -v
+      - name: Smoke-test the demo on bundled fixtures
+        run: |
+          python -m issuepilot demo --state /tmp/demo_state.json
+          rm -f /tmp/demo_state.json
