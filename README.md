@@ -9,11 +9,13 @@ or labeled automatically.**
 ## Quickstart
 
 ```bash
+git clone <this repo> && cd issuepilot
 python -m issuepilot demo
 ```
 
 That's it. No dependencies, no API keys, no network — the demo runs the full
-pipeline over the bundled fixtures and prints the review queue.
+pipeline over the bundled fixtures and prints the review queue. The package
+runs from source, so invoke `python -m issuepilot` from the repository root.
 
 ## Demo walkthrough
 
@@ -78,7 +80,9 @@ IssuePilot is read-only and local-first. It only ever sends GET requests to
 `api.github.com`; issue data, the HTTP cache (`issuepilot_cache.json`), and
 the review queue (`issuepilot_state.json`) stay on your disk. There is no
 telemetry, no third-party service, and your token (if you pass one) is never
-written to disk. Delete the two JSON files to remove all local state.
+written to disk. Delete the JSON state/cache files (`issuepilot_state.json`,
+`issuepilot_cache.json`, and `demo_state.json` if you ran the demo) to remove
+all local state.
 
 ## Known limitations
 
